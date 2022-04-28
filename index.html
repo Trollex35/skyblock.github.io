@@ -57,6 +57,7 @@
 
     function GetDevice() {
 
+      alert("sasadsadsa");
       vkBridge.send("VKWebAppGetClientVersion")
         .then(data => {
           if (data.platform != "web") {
