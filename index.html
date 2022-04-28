@@ -59,7 +59,7 @@
 
       vkBridge.send("VKWebAppGetClientVersion")
         .then(data => {
-          if (data.platform != "Web") {
+          if (data.platform != "web") {
             unityInstance.SendMessage('DEVICE', 'isMobile');
           }
         }
@@ -86,6 +86,7 @@
 
 
 
+    ShowAD();
 
   </script>
 </head>
