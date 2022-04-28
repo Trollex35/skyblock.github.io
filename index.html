@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <title>OneBlockSkyblock</title>
+  <script src="Build/UnityLoader.js"></script>
+  <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+  <script src="https://vk.com/js/api/xd_connection.js?2"></script>
+  <script src="https://ad.mail.ru/static/admanhtml/rbadman-html5.min.js"></script>
+  <script src="https://vk.com/js/api/adman_init.js"></script>
+  <script>
+    var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Craft2D.json", { onProgress: customProgress });
+
+
+    function ShowAD() {
+      vkBridge.send("VKWebAppShowNativeAds", { ad_format: "interstitial" })
+        .then(data => console.log(data.result))
+        .catch(error => console.log(error));
+    }
+
+
+    function ShowAD_Rewarded() {
+
+      vkBridge.send("VKWebAppShowNativeAds", { ad_format: "reward" })
+        .then(data => {
+          if (data.result) {
+            unityInstance.SendMessage('HOOK', 'RewardeddOK');
+          } else {
+            unityInstance.SendMessage('HOOK', 'RewardedERROR');
+          }
+        })
+        .catch(error => {
+          unityInstance.SendMessage('HOOK', 'RewardedERROR');
+        });
+
+    }
+
+
+    function ShareGame()
+    {
+      vkBridge.send("VKWebAppShare")
+        .then(data => console.log(data.result))
+        .catch(error => console.log(error));
+    }
+
+    
+    function InviteFriends()
+    {
+      vkBridge.send("VKWebAppShowInviteBox", {})
+         .then(data => console.log(data.success))  
+        .catch(error => console.log(error));
+    }
+
+
+    function GetDevice() {
+
+      vkBridge.send("VKWebAppGetClientVersion")
+        .then(data => {
+          if (data.platform != "Web") {
+            unityInstance.SendMessage('DEVICE', 'isMobile');
+          }
+        }
+        )
+        .catch(error => {
+          if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+            unityInstance.SendMessage('DEVICE', 'isMobile');
+          }
+        }
+
+        );
+    }
+
+    function customProgress(unityInstance, progress) {
+
+      const fill = document.getElementById("loaderFill");
+      fill.style.width = progress * 100 + "%";
+
+      if (progress === 1) {
+        const loader = document.getElementById("loader");
+        loader.remove();
+      }
+    }
+
+
+
+
+  </script>
+</head>
+
+<body style="width: 100vw; height: 100vh; margin: auto; background-color: #48a128;">
+  <div id="unityContainer" style="width: 100%; height: 100%; margin: auto"></div>
+
+
+  <div id="loader"
+    style="border-radius: 10px; top: 0px;width: 100%; height: 100%; position: fixed; background-color: #48a128;">
+    <div
+      style="overflow: hidden; border-radius: 10px; margin-left: calc(50vw - 100px); margin-top: 30px; width: 200px; height: 25px; background-color: rgba(0, 0, 0, 0.4)">
+      <div id="loaderFill" style="width: 0%; height: 100%; background-color: white;"></div>
+    </div>
+  </div>
+</body>
+
+</html>
