@@ -60,19 +60,11 @@
       vkBridge.send("VKWebAppGetClientVersion")
         .then(data => {
           if (data.platform != "web") {
-            alert(web);
             unityInstance.SendMessage('DEVICE', 'isMobile');
           }
         }
         )
-        .catch(error => {
-          alert(error);  
-          if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-            unityInstance.SendMessage('DEVICE', 'isMobile');
-          }
-        }
-
-        );
+        .catch(error => {});
     }
 
     function customProgress(unityInstance, progress) {
