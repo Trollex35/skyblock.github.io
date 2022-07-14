@@ -12,6 +12,9 @@
   <script src="https://ad.mail.ru/static/admanhtml/rbadman-html5.min.js"></script>
   <script src="https://vk.com/js/api/adman_init.js"></script>
   <script>
+    
+    vkBridge.send("VKWebAppInit");
+    
     var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Craft2D.json", { onProgress: customProgress });
 
 
